@@ -35,15 +35,16 @@ class BuilderWithPaginationHavingSupport extends Builder
             // getCountForPagination() is
             // checking for it.
             if (!$this->groups) {
-                $countQuery->setAggregate('count', $this->withoutSelectAliases($columns));
+                $countQuery->setAggregate('count', $this->withoutSelectAliases([$this->from.'.id']));
             }
 
-            return $countQuery->get()->all();
+            return $countQuery->distinct()->get()->all();
         }
 
         return $this->cloneWithout(['columns', 'orders', 'limit', 'offset'])
                     ->cloneWithoutBindings(['select', 'order'])
-                    ->setAggregate('count', $this->withoutSelectAliases($columns))
+                    ->setAggregate('count', $this->withoutSelectAliases([$this->from.'.id']))
+                    ->distinct()
                     ->get()->all();
     }
 }
