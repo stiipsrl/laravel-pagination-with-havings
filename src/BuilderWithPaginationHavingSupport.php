@@ -35,7 +35,7 @@ class BuilderWithPaginationHavingSupport extends Builder
             // getCountForPagination() is
             // checking for it.
             if (!$this->groups) {
-                $countQuery->setAggregate('count', $this->withoutSelectAliases([$this->from.'.id']));
+                $countQuery->setAggregate('count', $this->withoutSelectAliases($columns));
             }
 
             return $countQuery->distinct()->get()->all();
